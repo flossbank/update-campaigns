@@ -1,0 +1,27 @@
+{
+  "name": "update-campaigns",
+  "version": "1.0.0",
+  "description": "update-campaigns",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.543.0",
+    "mongodb": "^3.4.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flossbank/update-campaigns.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flossbank/update-campaigns/issues"
+  },
+  "homepage": "https://github.com/flossbank/update-campaigns#readme",
+  "devDependencies": {
+    "standard": "^14.3.1"
+  }
+}
