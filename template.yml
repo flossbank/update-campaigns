@@ -21,6 +21,8 @@ Resources:
       Handler: index.handler
       Runtime: nodejs10.x
       CodeUri: ./
+      Policies:
+        - DecryptKeys
       Environment:
         Variables:
           MONGO_URI: !Ref MongoUri
