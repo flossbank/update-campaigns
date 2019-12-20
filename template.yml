@@ -22,7 +22,7 @@ Resources:
       Runtime: nodejs10.x
       CodeUri: ./
       Policies:
-        - DecryptKeys
+        - "arn:aws:iam::011767500962:policy/DecryptKeys"
       Environment:
         Variables:
           MONGO_URI: !Ref MongoUri
