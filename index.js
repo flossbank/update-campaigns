@@ -25,7 +25,7 @@ exports.handler = async () => {
   const bulkCampaigns = db.collection(AD_CAMPAIGNS_COLLECTION).initializeUnorderedBulkOp()
 
   bulkCampaigns.find({
-    expires: { $lte: Date.now() }
+    endDate: { $lte: Date.now() }
   }).updateOne({
     $set: { active: false }
   })
