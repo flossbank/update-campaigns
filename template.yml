@@ -6,6 +6,17 @@ Parameters:
     Type: AWS::SSM::Parameter::Value<String>
     Default: '/api/db/mongo_uri'
 Resources:
+  UpdateCampaignsFunctionPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action:
+              - 'kms:Decrypt'
+              - 'kms:ListKeys'
+            Resource: '*'
+      PolicyName: "UpdateCampaignsFunctionPolicy"
   UpdateCampaignsFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -22,7 +33,7 @@ Resources:
       Runtime: nodejs10.x
       CodeUri: ./
       Policies:
-        - "arn:aws:iam::011767500962:policy/DecryptKeys"
+        - !Ref UpdateCampaignsFunctionPolicy
       Environment:
         Variables:
           MONGO_URI: !Ref MongoUri
