@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Updates ad campaigns
+Parameters:
+  MongoUri:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: '/api/db/mongo_uri'
+Resources:
+  UpdateCampaignsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events: 
+        UpdateCampaignsSchedule:
+          Properties:
+            Description: Every 24 hours
+            Enabled: true
+            Name: UpdateCampaignsSchedule
+            Schedule: rate(24 hours)
+          Type: Schedule
+      Timeout: 180
+      Handler: index.handler
+      Runtime: nodejs10.x
+      CodeUri: ./
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'kms:Decrypt'
+              - 'kms:ListKeys'
+            Resource: '*'
+      Environment:
+        Variables:
+          MONGO_URI: !Ref MongoUri
