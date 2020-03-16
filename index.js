@@ -19,10 +19,7 @@ const getMongoClient = async () => {
   return mongoClient.connect()
 }
 
-exports.handler = async () => {
-  const mongoClient = await getMongoClient()
-  const db = mongoClient.db(MONGO_DB)
-  
+const process = async ({ db }) => {
   // first take care of the easy ones (end date has passed)
   const bulkCampaigns = db.collection(ADVERTISERS_COLLECTION).initializeUnorderedBulkOp()
   bulkCampaigns.find({
@@ -52,7 +49,7 @@ exports.handler = async () => {
   }).map(({ id }) => id)
 
   db.collection(ADVERTISERS_COLLECTION).updateMany({
-    _id: { $in: advertisersWithActiveCampaigns.map(({ _id }) => ObjectId(_id))}
+    _id: { $in: advertisersWithActiveCampaigns.map(({ _id }) => ObjectId(_id)) }
   }, {
     $set: { 'adCampaigns.$[campaign].active': false }
   }, {
@@ -60,4 +57,17 @@ exports.handler = async () => {
       { 'campaign.id': { $in: campaignsExceedingMaxSpend } }
     ]
   })
+}
+
+exports.handler = async () => {
+  const mongoClient = await getMongoClient()
+  const db = mongoClient.db(MONGO_DB)
+
+  try {
+    await process({ db })
+  } catch (e) {
+    console.error(e)
+  }
+
+  mongoClient.close()
 }
