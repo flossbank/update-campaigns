@@ -19,7 +19,7 @@ const getMongoClient = async () => {
   return mongoClient.connect()
 }
 
-const process = async ({ db }) => {
+const handle = async ({ db }) => {
   // first take care of the easy ones (end date has passed)
   const bulkCampaigns = db.collection(ADVERTISERS_COLLECTION).initializeUnorderedBulkOp()
   bulkCampaigns.find({
@@ -64,7 +64,7 @@ exports.handler = async () => {
   const db = mongoClient.db(MONGO_DB)
 
   try {
-    await process({ db })
+    await handle({ db })
   } catch (e) {
     console.error(e)
   }
