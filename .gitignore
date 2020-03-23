@@ -1,4 +1,5 @@
 .env.json
+TEST_RESULTS.xml
 
 # Logs
 logs
